@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/e156cf7b-bfa0-4e2a-89a7-a0d6db346cd3/resourceGroups/MaxControl/providers/Microsoft.Web/sites/maxclientportal",
+    "appService.deploySubpath": "."
+}

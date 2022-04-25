@@ -1,0 +1,119 @@
+const express = require('express');
+
+const client = require('../../database/');
+const router = express.Router();
+
+
+router.get('/descricao', async(req, res) => {   
+    try{       
+        const {id, nome} = req.query;        
+
+        let query = 'SELECT ID_EMPRESA, NOME_EMPRESA FROM EMPRESAS where 1 = 1';
+
+        if (!!id && id > 0) {
+            query += ' and ID_EMPRESA = ' + id
+        }
+
+        if (!!nome && nome != "") {
+            query += " and NOME_EMPRESA LIKE '%" + nome + "%'"
+        }
+
+        console.log(query);
+        return res.send(await client(query));
+    }catch(err) {
+        return res.status(400).send({ error: 'Registration failed'});
+    }
+});
+
+
+router.get('/', async(req, res) => {   
+    try{       
+        const {id, nome, idFormaPagto} = req.query;        
+
+        let query = `select FIRST 100 ID_EMPRESA,
+                            NOME_EMPRESA,
+                            CNPJ,
+                            LAUDO_DATA_ENTREGA,
+                            (Select DESCRICAO_CURTA
+                                FROM VIEW_FORMAS_PAGTO
+                                WHERE ID_RETORNAR = ep.id_forma_pagto) AS FORMA_PAGTO,
+                            (Select DESCRICAO_CURTA
+                                FROM VIEW_GRAU_RISCO
+                                WHERE ID_RETORNAR = ep.id_grau_risco) AS GRAU_RISCO
+                          from EMPRESAS ep
+                     where 1 = 1   `;
+
+        if (!!id && id > 0) {
+            query += ' and ID_EMPRESA = ' + id
+        }
+
+        if (!!idFormaPagto && idFormaPagto > 0) {
+            query += ' and ID_FORMA_PAGTO = ' + idFormaPagto
+        }
+
+        if (!!nome && nome != "") {
+            query += " and NOME_EMPRESA LIKE '%" + nome + "%'"
+        }
+
+        return res.send(await client(query));
+    }catch(err) {
+        return res.status(400).send({ error: 'Registration failed'});
+    }
+});
+
+
+router.get('/id', async(req, res) => {   
+    try{       
+        const {idEmpresa} = req.query;        
+
+        console.log(idEmpresa)
+        
+        if (idEmpresa == undefined || idEmpresa == 0) {
+            return res.status(400).send({ error: 'IdEmpresa não informada'});
+        }
+
+        let query = `select ID_EMPRESA,
+                            NOME_EMPRESA,
+                            CNPJ,
+                            ENDERECO,
+                            NUMERO,
+                            BAIRRO,
+                            CIDADE,
+                            TRIM(UF) UF,
+                            (Select DESCRICAO_CURTA
+                                FROM VIEW_FORMAS_PAGTO
+                            WHERE ID_RETORNAR = ep.id_forma_pagto) AS FORMA_PAGTO,
+                            (Select DESCRICAO_CURTA
+                                FROM VIEW_GRAU_RISCO
+                            WHERE ID_RETORNAR = ep.id_grau_risco) AS GRAU_RISCO,
+                            (Select Count(*)
+                                from FUNCIONARIOS
+                            where ID_EMPRESA = ep.id_empresa AND
+                                DATA_DEMISSAO IS NULL) as QTDE_FUNCIONARIOS,
+                            (Select Count(*)
+                                from ES1060_AMB
+                            where ID_EMPRESA = ep.id_empresa ) as QTDE_AMBIENTE,
+                            (Select Count(*)
+                                from EMPRESAS_FUNCOES
+                            where ID_EMPRESA = ep.id_empresa and
+                                    (INATIVA IS NULL or INATIVA <> 'S')) as QTDE_FUNCOES,
+                            (Select Count(*)
+                                from EMPRESAS_RESP
+                            where ID_EMPRESA = ep.id_empresa) as QTDE_RESPONSAVEIS
+                        from EMPRESAS ep
+                    where ep.ID_EMPRESA = ${idEmpresa} `;
+
+        const empresas =  await client(query);
+        
+        if (empresas.length == 0) {
+            return res.status(400).send({ error: 'Empresa não encontrada'});
+        }
+
+        return res.send(empresas[0]);
+    }catch(err) {
+        return res.status(400).send({ error: 'Registration failed'});
+    }
+});
+
+
+module.exports = app => app.use('/empresa', router);
