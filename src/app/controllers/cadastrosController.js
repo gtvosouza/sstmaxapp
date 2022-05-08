@@ -16,7 +16,7 @@ router.get('/riscos', async(req, res) => {
             query += " and NOME_RISCO LIKE '%" + nome + "%'"
         }
 
-        const riscos =  await client(query);
+        const riscos =  await client.execQuery(query);
         
         if (riscos.length == 0) {
             return res.status(400).send({ error: 'Risco não encontrado'});
@@ -40,13 +40,62 @@ router.get('/funcoes', async(req, res) => {
             query += " and NOME_FUNCAO LIKE '%" + nome + "%'"
         }
 
-        const funcoes =  await client(query);
+        const funcoes =  await client.execQuery(query);
         
         if (funcoes.length == 0) {
-            return res.status(400).send({ error: 'fUNÇÃO não encontrado'});
+            return res.status(400).send({ error: 'Função não encontrado'});
         }
 
         return res.send(funcoes);
+    }catch(err) {
+        return res.status(400).send({ error: 'Erro ao Carregar'});
+    }
+});
+
+router.get('/tiporesponsavel', async(req, res) => {   
+    try{       
+        const {nome} = req.query;            
+        
+        let query = `select ID_RETORNAR,
+                            DESCRICAO_CURTA
+                        from AUXILIARES
+                    where flag = 15`;
+                
+        if (!!nome && nome != "") {
+            query += " and DESCRICAO_CURTA LIKE '%" + nome + "%'"
+        }
+
+        const tipos =  await client.execQuery(query);
+        
+        if (tipos.length == 0) {
+            return res.status(400).send({ error: 'Tipo não encontrado'});
+        }
+
+        return res.send(tipos);
+    }catch(err) {
+        return res.status(400).send({ error: 'Erro ao Carregar'});
+    }
+});
+
+router.get('/responsavel', async(req, res) => {   
+    try{       
+        const {nome} = req.query;            
+        
+        let query = `select *
+                        from RESPONSAVEL
+                    where 1 = 1`;
+                
+        if (!!nome && nome != "") {
+            query += " and NOME LIKE '%" + nome + "%'"
+        }
+
+        const resp =  await client.execQuery(query);
+        
+        if (resp.length == 0) {
+            return res.status(400).send({ error: 'Tipo não encontrado'});
+        }
+
+        return res.send(resp);
     }catch(err) {
         return res.status(400).send({ error: 'Erro ao Carregar'});
     }

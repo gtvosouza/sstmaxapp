@@ -21,10 +21,11 @@ router.get('/', async(req, res) => {
                      inner join  EMPRESAS_FUNCOES cf   on cf.id_funcao = fn.ID_FUNCAO and
                                                          cf.ID_EMPRESA = fn.ID_EMPRESA
                      Where fn.ID_EMPRESA = ${idEmpresa} and
-                           fn.data_demissao is null`;
+                           fn.data_demissao is null
+                     ORDER BY NOME_FUNCIONARIO`;
         
 
-        return res.send(await client(query));
+        return res.send(await client.execQuery(query));
     }catch(err) {
         return res.status(400).send({ error: 'Erro ao carregar dados'});
     }

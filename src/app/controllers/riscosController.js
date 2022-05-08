@@ -25,12 +25,11 @@ router.get('/', async(req, res) => {
                             er.DATA_FIM IS NULL`;
 
 
-        return res.send(await client(query));
+        return res.send(await client.execQuery(query));
     }catch(err) {
         return res.status(400).send({ error: 'Erro ao Carregar Registro'});
     }
 });
-
 
 router.get('/id', async(req, res) => {   
     try{       
@@ -59,7 +58,7 @@ router.get('/id', async(req, res) => {
                         where er.ID_EMPRESA_RISCO = ${idEmpresaRisco}`;
 
 
-        return res.send(await client(query));
+        return res.send(await client.execQuery(query));
     }catch(err) {
         return res.status(400).send({ error: 'Erro ao Carregar Registro'});
     }

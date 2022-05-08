@@ -17,7 +17,7 @@ router.post('/', async(req, res) => {
         const {usuario, senha} = req.body;        
                 
         const query = "select ID_USUARIO, NOME_USUARIO, SENHA, trim(COALESCE(USUARIO_WEB, 'N')) as USUARIO_WEB  from USUARIOS where upper(NOME_USUARIO) = '"+ usuario.toUpperCase() + "'";
-        const user = await client(query);
+        const user = await client.execQuery(query);
 
         if (user.length == 0) {
            return res.status(400).send({ error: 'Usuário não encontrado'});
