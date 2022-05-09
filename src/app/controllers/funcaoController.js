@@ -15,22 +15,24 @@ router.get('/', async(req, res) => {
             return res.status(406).send({ error: 'Parametro "IdEmpresa" obrigatório.'});
         }
 
-        let query = `select ID_EMPRESA_FUNCAO,                
-                            ID_FUNCAO,
-                            NOME_FUNCAO,
-                            SETOR,
-                            CBO,
-                            COD_GFIP,
-                            FERAM_UTILI,
-                            ID_AMBIENTE,
-                            ATIVIDADES,
-                            INATIVA,
-                            INSALUBRIDADE,
-                            PERICULOSIDADE 
-                        from EMPRESAS_FUNCOES 
-                    where ID_EMPRESA = ${idEmpresa} AND 
-                            (INATIVA IS NULL or INATIVA <> 'S')` ;
-        
+        let query = `select ef.ID_EMPRESA_FUNCAO,                
+                            ef.ID_FUNCAO,
+                            ef.NOME_FUNCAO,
+                            ef.SETOR,
+                            ef.CBO,
+                            ef.COD_GFIP,
+                            ef.FERAM_UTILI,
+                            ef.ID_AMBIENTE,
+                            ab.DESCRICAO as NOME_AMBIENTE,
+                            CAST(ef.ATIVIDADES AS VARCHAR(1000)) AS ATIVIDADES,
+                            ef.INATIVA,
+                            ef.INSALUBRIDADE,
+                            ef.PERICULOSIDADE 
+                        from EMPRESAS_FUNCOES ef
+                        left join ES1060_AMB ab on ab.ID_AMBIENTE = ef.ID_AMBIENTE
+                    where ef.ID_EMPRESA = ${idEmpresa} AND 
+                            (ef.INATIVA IS NULL or ef.INATIVA <> 'S')` ;
+    
         return res.send(await client.execQuery(query));
     }catch(err) {
         return res.status(400).send({ error: 'Erro ao executar consulta' + err});

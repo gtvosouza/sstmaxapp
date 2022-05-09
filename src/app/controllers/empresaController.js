@@ -32,7 +32,7 @@ router.get('/', async(req, res) => {
         let query = `select FIRST 100 ID_EMPRESA,
                             NOME_EMPRESA,
                             CNPJ,
-                            LAUDO_DATA_ENTREGA,
+                            LAUDO_DATA_ENTREGA,                            
                             (Select DESCRICAO_CURTA
                                 FROM VIEW_FORMAS_PAGTO
                                 WHERE ID_RETORNAR = ep.id_forma_pagto) AS FORMA_PAGTO,
@@ -76,6 +76,7 @@ router.get('/id', async(req, res) => {
                             NUMERO,
                             BAIRRO,
                             CIDADE,
+                            CAST(OBSERVACAO AS VARCHAR(1000)) AS OBSERVACAO,
                             TRIM(UF) UF,
                             (Select DESCRICAO_CURTA
                                 FROM VIEW_FORMAS_PAGTO
