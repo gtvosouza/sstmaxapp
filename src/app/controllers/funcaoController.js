@@ -27,7 +27,10 @@ router.get('/', async(req, res) => {
                             CAST(ef.ATIVIDADES AS VARCHAR(1000)) AS ATIVIDADES,
                             ef.INATIVA,
                             ef.INSALUBRIDADE,
-                            ef.PERICULOSIDADE 
+                            ef.PERICULOSIDADE,
+                            ef.NAO_SAIR_PPRA,
+                            ef.NAO_SAIR_PCMSO,
+                            ef.NAO_SAIR_LTCAT 
                         from EMPRESAS_FUNCOES ef
                         left join ES1060_AMB ab on ab.ID_AMBIENTE = ef.ID_AMBIENTE
                     where ef.ID_EMPRESA = ${idEmpresa} AND 
