@@ -27,7 +27,7 @@ const execQuery = (query) => {
 
       db.query(query, (erro, resultado) => {
         if (erro) {          
-          rejeitar(err);
+          rejeitar(erro);
           return;
         }
 
@@ -57,8 +57,6 @@ const execUpdateInsert = (query) => {
                   rejeitar(err);
                   return;
               }
-
-              console.log(result)
   
               transaction.commit(function(err) {
                   if (err)
