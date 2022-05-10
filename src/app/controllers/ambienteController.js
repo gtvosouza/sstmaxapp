@@ -23,6 +23,48 @@ router.get('/', async(req, res) => {
     }
 });
 
+router.get('/detalhamento', async(req, res) => {   
+    try{       
+        const {idEmpresa} = req.query;        
+
+        const carecteristicas = [
+            {
+                descricao : "Pé Direito (M)",
+                opcoes: ["2,5m", "3m", "4m", "5m", "6m", "Outro"]            
+            },
+            {
+                descricao : "Cobertura",
+                opcoes: ["Galvanizada", "Fibrocimento", "Cerâmica", "Translúcidas", "Concreto", "Outro"]            
+            },
+            {
+                descricao : "Parede",
+                opcoes: ["Alvenaria", "Divisórias", "Vidro", "Madeira", "Gesso", "Metal", "Outro"]            
+            },
+            {
+                descricao : "Iluminação",
+                opcoes: ["Natural", "Artificial", "Artificial/natual", "Outro"]            
+            },
+            {
+                descricao : "Ventilação",
+                opcoes: ["Portas", "Janelas", "Ventiladores", "Natural", "Outro"]            
+            },
+            {
+                descricao : "Piso",
+                opcoes: ["Cerâmico", "Cimento Industrial", "Paviflex laminado", "Concreto", "Madeira", "Carpete"]            
+            },
+            {
+                descricao : "EPC",
+                opcoes: ["Coifa/Capela Exaustora", "Exaustor eólico", "Outros"]            
+            },
+        ]
+
+        return res.send(carecteristicas);
+    }catch(err) {
+        return res.status(400).send({ error: 'Registration failed' + err});
+    }
+});
+
+
 router.put('/', async(req, res) => {   
     try{   
         const {idEmpresa} = req.query;        
