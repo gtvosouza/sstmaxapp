@@ -25,8 +25,6 @@ router.get('/', async(req, res) => {
 
 router.get('/detalhamento', async(req, res) => {   
     try{       
-        const {idEmpresa} = req.query;        
-
         const carecteristicas = [
             {
                 descricao : "Pé Direito (M)",
