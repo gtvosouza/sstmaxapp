@@ -14,7 +14,7 @@ router.get('/', async(req, res) => {
         if (idEmpresa == undefined || idEmpresa == 0) {
             return res.status(406).send({ error: 'Parametro "IdEmpresa" obrigatório.'});
         }
-
+   
         let query = `select ef.ID_EMPRESA_FUNCAO,                
                             ef.ID_FUNCAO,
                             ef.NOME_FUNCAO,
@@ -35,10 +35,10 @@ router.get('/', async(req, res) => {
                         left join ES1060_AMB ab on ab.ID_AMBIENTE = ef.ID_AMBIENTE
                     where ef.ID_EMPRESA = ${idEmpresa} AND 
                             (ef.INATIVA IS NULL or ef.INATIVA <> 'S')` ;
-    
+        
         return res.send(await client.execQuery(query));
     }catch(err) {
-        return res.status(400).send({ error: 'Erro ao executar consulta' + err});
+        return res.status(400).send({ error: 'Erro ao executar consulta ' + err.message});
     }
 });
 

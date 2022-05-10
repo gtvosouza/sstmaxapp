@@ -2,7 +2,11 @@ const express = require('express');
 
 const client = require('../../database/');
 const router = express.Router();
+const libUtils = require('../../resources/libUtils');
 
+
+const authMiddlware  = require('../middlewares/auth');
+router.use(authMiddlware);
 
 router.get('/descricao', async(req, res) => {   
     try{       
@@ -110,6 +114,30 @@ router.get('/id', async(req, res) => {
         return res.send(empresas[0]);
     }catch(err) {
         return res.status(400).send({ error: 'Registration failed'});
+    }
+});
+
+
+router.put('/', async(req, res) => {   
+    try{   
+        const {idEmpresa} = req.query;        
+        const {OBSERVACAO} = req.body;
+           
+        if (idEmpresa == undefined || idEmpresa == 0) {
+            return res.status(406).send(JSON.stringify({ error: 'Parametro "IdEmpresa" obrigatório.'}));
+        }
+        
+        let query = `update EMPRESAS
+                     set
+                        ${libUtils.getUpdateFieldCondi('OBSERVACAO', OBSERVACAO, true)}
+                        CIDADE = CIDADE
+                     where
+                        ID_EMPRESA = ${idEmpresa}
+                     `;
+                        
+        return res.send(await client.execUpdateInsert(query));
+    }catch(err) {
+        return res.status(400).send({ error: 'Registration failed ' + err});
     }
 });
 
