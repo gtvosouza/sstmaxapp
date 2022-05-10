@@ -4,9 +4,6 @@ const libUtils = require('../../resources/libUtils');
 const client = require('../../database');
 const router = express.Router();
 
-const authMiddlware  = require('../middlewares/auth');
-router.use(authMiddlware);
-
 router.get('/', async(req, res) => {   
     try{       
         const {idEmpresa} = req.query;        
