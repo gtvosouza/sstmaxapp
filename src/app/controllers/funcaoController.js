@@ -53,7 +53,10 @@ router.put('/', async(req, res) => {
                 ID_AMBIENTE,
                 INATIVA,
                 INSALUBRIDADE,
-                PERICULOSIDADE} = req.body;
+                PERICULOSIDADE,
+                NAO_SAIR_PPRA,
+                NAO_SAIR_PCMSO,
+                NAO_SAIR_LTCAT } = req.body;
            
         if (idEmpresa == undefined || idEmpresa == 0) {
             return res.status(406).send(JSON.stringify({ error: 'Parametro "IdEmpresa" obrigatório.'}));

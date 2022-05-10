@@ -4,8 +4,8 @@ const client = require('../../database');
 const libUtils = require('../../resources/libUtils');
 const router = express.Router();
 
-const authMiddlware  = require('../middlewares/auth');
-router.use(authMiddlware);
+//const authMiddlware  = require('../middlewares/auth');
+//router.use(authMiddlware);
 
 router.get('/', async(req, res) => {   
     try{       
