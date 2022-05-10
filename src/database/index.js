@@ -25,19 +25,13 @@ const execQuery = (query) => {
         return;
       }
 
-      console.log('VAI INICIAR')
       db.query(query, (erro, resultado) => {
         if (erro) {          
-          console.log('ERRO')
-          console.log(erro)
           rejeitar(erro);
           return;
         }
 
         db.detach();
-        console.log('RESULTADO')
-        console.log(resultado)
-        
         resolver(resultado);
       });
     });

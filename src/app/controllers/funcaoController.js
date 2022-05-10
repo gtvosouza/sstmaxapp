@@ -21,7 +21,7 @@ router.get('/', async(req, res) => {
                             ef.FERAM_UTILI,
                             ef.ID_AMBIENTE,
                             ab.DESCRICAO as NOME_AMBIENTE,
-                            CAST(ef.ATIVIDADES AS VARCHAR(1000)) AS ATIVIDADES,
+                            CAST(ef.ATIVIDADES AS VARCHAR(3000)) AS ATIVIDADES,
                             ef.INATIVA,
                             ef.INSALUBRIDADE,
                             ef.PERICULOSIDADE,
