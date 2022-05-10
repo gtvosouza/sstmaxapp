@@ -36,7 +36,6 @@ router.get('/', async(req, res) => {
                     where ef.ID_EMPRESA = ${idEmpresa} AND 
                             (ef.INATIVA IS NULL or ef.INATIVA <> 'S')` ;
         
-        console.log(query)
         return res.send(await client.execQuery(query));
     }catch(err) {
         return res.status(400).send({ error: 'Erro ao executar consulta ' + err});

@@ -21,23 +21,25 @@ const execQuery = (query) => {
   return new Promise((resolver, rejeitar) => {
     pool.get((err, db) => {
       if (err) {
+        console.log(err)
         rejeitar(err);
         return;
       }
 
       db.query(query, (erro, resultado) => {
         if (erro) {
+          console.log(err)
           rejeitar(err);
           return;
         }
 
         db.detach();
+        console.log(resultado)
         resolver(resultado);
       });
     });
   });
 }
-
 
 const execUpdateInsert = (query) => {
   return new Promise((resolver, rejeitar) => {
