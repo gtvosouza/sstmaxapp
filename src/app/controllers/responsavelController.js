@@ -125,7 +125,7 @@ router.post('/', async(req, res) => {
                             NOME_RESP, NUMERO_PIS)
                      values
                             (${libUtils.getInserValue(DADOS_RESP, true)}, 
-                            ${DATA_FIM == undefined ? 'NULL' : libUtils.getInserValue(libUtils.formatDateDB(DATA_FIM), true)}, 
+                            ${DATA_FIM == undefined || DATA_FIM == "" ? 'NULL' : libUtils.getInserValue(libUtils.formatDateDB(DATA_FIM), true)}, 
                             ${libUtils.getInserValue(libUtils.formatDateDB(DATA_INI), true)},  
                             ${idEmpresa}, 
                             ${ID_RESPONSAVEL}, 
