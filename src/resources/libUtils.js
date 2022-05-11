@@ -29,7 +29,6 @@ const formatDateDB = (date) => {
     return day + '/' + month + "/" + year;
 }
 
-
 const getUpdateFieldCondi = (fieldName, fieldValue, stringField) => {
     let newFieldValue = fieldValue;
 
@@ -40,6 +39,22 @@ const getUpdateFieldCondi = (fieldName, fieldValue, stringField) => {
         newFieldValue = `'${fieldValue}'`;
     }
     return `${fieldName} = ${newFieldValue},`
+}
+
+const getUpdateFieldBool = (fieldName, fieldValue) => {    
+
+    if (fieldValue == undefined)
+        return '';
+
+    return `${fieldName} =  '${fieldName ? 'S' : 'N'}',`
+}
+
+const getUpdateFieldBoolInt = (fieldName, fieldValue) => {    
+
+    if (fieldValue == undefined)
+        return 0;
+
+    return `${fieldName} =  ${fieldName ? 1 : 0},`
 }
 
 const getInserValue = (fieldValue, stringField) => {
@@ -54,12 +69,27 @@ const getInserValue = (fieldValue, stringField) => {
     return `${fieldValue == undefined ? emptyString : `${newFieldValue}`}`
 }
 
+const getInserValueBoolean = (fieldValue) => {    
+    let emptyString = 'N';
 
+    return `'${fieldValue == undefined ? emptyString : `${fieldValue ? 'S' : 'N'}`}'`
+}
+
+
+const getInserValueBooleanInt = (fieldValue) => {    
+    let emptyString = 0;
+
+    return `${fieldValue == undefined ? emptyString : `${fieldValue ? 1 : 0}`}`
+}
         
 module.exports = {
     getLogAlteracao,
     formatDateDB,
     getDate,
     getUpdateFieldCondi,
-    getInserValue
+    getInserValue,
+    getUpdateFieldBool,
+    getUpdateFieldBoolInt,
+    getInserValueBoolean,
+    getInserValueBooleanInt
 }

@@ -3,6 +3,8 @@ const express = require('express');
 const client = require('../../database');
 const router = express.Router();
 
+const authMiddlware  = require('../middlewares/auth');
+router.use(authMiddlware);
 
 router.get('/riscos', async(req, res) => {   
     try{       
@@ -86,7 +88,7 @@ router.get('/responsavel', async(req, res) => {
                     where 1 = 1`;
                 
         if (!!nome && nome != "") {
-            query += " and NOME LIKE '%" + nome + "%'"
+            query += " and UPPER(NOME) LIKE '%" + nome.toUpperCase() + "%'"
         }
 
         const resp =  await client.execQuery(query);

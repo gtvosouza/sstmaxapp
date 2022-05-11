@@ -23,7 +23,7 @@ router.get('/', async(req, res) => {
     }
 });
 
-router.get('/detalhamento', async(req, res) => {   
+router.get('/caracteristicas', async(req, res) => {   
     try{       
         const carecteristicas = [
             {
@@ -62,6 +62,25 @@ router.get('/detalhamento', async(req, res) => {
     }
 });
 
+
+router.get('/descricao', async(req, res) => {   
+    try{       
+        const {values} = req.body;    
+      
+        let descricao = "";
+
+        values.forEach(element => {
+            if(descricao == "")
+                descricao += `${element.descricao}: ${element.valor};`
+            else
+            descricao += ` ${element.descricao}: ${element.valor};`            
+        });
+
+        return res.send(descricao);
+    }catch(err) {
+        return res.status(400).send({ error: 'Registration failed' + err});
+    }
+});
 
 router.put('/', async(req, res) => {   
     try{   

@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('/', async(req, res) => {   
     try{       
-        const {idEmpresa} = req.query;        
+        const {idEmpresa, idFuncaoEmpresa} = req.query;        
 
         if (idEmpresa == undefined || idEmpresa == 0) {
             return res.status(406).send({ error: 'Parametro "IdEmpresa" obrigatório.'});
@@ -33,6 +33,11 @@ router.get('/', async(req, res) => {
                     where ef.ID_EMPRESA = ${idEmpresa} AND 
                             (ef.INATIVA IS NULL or ef.INATIVA <> 'S')` ;
         
+        if (idFuncaoEmpresa != undefined) {
+            query += ' and ID_EMPRESA_FUNCAO = ' + idFuncaoEmpresa;
+        }
+
+
         return res.send(await client.execQuery(query));
     }catch(err) {
         return res.status(400).send({ error: 'Erro ao executar consulta ' + err});
@@ -74,6 +79,10 @@ router.put('/', async(req, res) => {
                         ${libUtils.getUpdateFieldCondi('ID_AMBIENTE', ID_AMBIENTE, false)}
                         ${libUtils.getUpdateFieldCondi('INSALUBRIDADE', INSALUBRIDADE, true)}
                         ${libUtils.getUpdateFieldCondi('PERICULOSIDADE', PERICULOSIDADE, true)}   
+                        ${libUtils.getUpdateFieldBool('NAO_SAIR_PPRA', NAO_SAIR_PPRA)}
+                        ${libUtils.getUpdateFieldBool('NAO_SAIR_PCMSO', NAO_SAIR_PCMSO)}
+                        ${libUtils.getUpdateFieldBool('NAO_SAIR_LTCAT', NAO_SAIR_LTCAT)}
+                        ${libUtils.getUpdateFieldBool('INATIVA', INATIVA)}
                         NOME_FUNCAO = '${NOME_FUNCAO}'                     
                         where
                         ID_EMPRESA_FUNCAO = ${ID_EMPRESA_FUNCAO}
@@ -97,6 +106,9 @@ router.post('/', async(req, res) => {
                 FERAM_UTILI,
                 ID_AMBIENTE,
                 INATIVA,
+                NAO_SAIR_PPRA, 
+                NAO_SAIR_PCMSO, 
+                NAO_SAIR_LTCAT, 
                 INSALUBRIDADE,
                 PERICULOSIDADE} = req.body;
            
@@ -142,15 +154,14 @@ router.post('/', async(req, res) => {
                              ${libUtils.getInserValue(ID_AMBIENTE, false)}, 
                              '${libUtils.getDate()}',   
                              NULL, 
-                             NULL, 
-                             NULL, 
-                             NULL, 
-                             NULL,
+                             ${libUtils.getInserValueBoolean(NAO_SAIR_PPRA)},
+                             ${libUtils.getInserValueBoolean(NAO_SAIR_PCMSO)},
+                             ${libUtils.getInserValueBoolean(NAO_SAIR_LTCAT)},
+                             ${libUtils.getInserValueBoolean(INATIVA)},
                              ${libUtils.getInserValue(INSALUBRIDADE, true)},  
                              ${libUtils.getInserValue(PERICULOSIDADE, true)}) returning ID_EMPRESA_FUNCAO
                         `;
 
-        console.log(query)
         return res.send(await client.execUpdateInsert(query));
     }catch(err) {
         return res.status(400).send({ error: 'Registration failed ' + err});

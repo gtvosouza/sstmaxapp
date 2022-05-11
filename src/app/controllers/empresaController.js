@@ -4,7 +4,6 @@ const client = require('../../database/');
 const router = express.Router();
 const libUtils = require('../../resources/libUtils');
 
-
 const authMiddlware  = require('../middlewares/auth');
 router.use(authMiddlware);
 
@@ -27,7 +26,6 @@ router.get('/descricao', async(req, res) => {
         return res.status(400).send({ error: 'Registration failed'});
     }
 });
-
 
 router.get('/', async(req, res) => {   
     try{       
@@ -63,7 +61,6 @@ router.get('/', async(req, res) => {
         return res.status(400).send({ error: 'Registration failed'});
     }
 });
-
 
 router.get('/id', async(req, res) => {   
     try{       
@@ -117,7 +114,6 @@ router.get('/id', async(req, res) => {
     }
 });
 
-
 router.put('/', async(req, res) => {   
     try{   
         const {idEmpresa} = req.query;        
@@ -140,6 +136,5 @@ router.put('/', async(req, res) => {
         return res.status(400).send({ error: 'Registration failed ' + err});
     }
 });
-
 
 module.exports = app => app.use('/empresa', router);
