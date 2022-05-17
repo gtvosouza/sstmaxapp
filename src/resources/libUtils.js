@@ -75,7 +75,6 @@ const getInserValueBoolean = (fieldValue) => {
     return `'${fieldValue == undefined ? emptyString : `${fieldValue ? 'S' : 'N'}`}'`
 }
 
-
 const getInserValueBooleanInt = (fieldValue) => {    
     let emptyString = 0;
 

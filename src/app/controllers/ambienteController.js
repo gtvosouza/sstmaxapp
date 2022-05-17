@@ -62,7 +62,6 @@ router.get('/caracteristicas', async(req, res) => {
     }
 });
 
-
 router.get('/descricao', async(req, res) => {   
     try{       
         const {values} = req.body;    
