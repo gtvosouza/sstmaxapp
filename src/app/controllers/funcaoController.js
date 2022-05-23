@@ -4,6 +4,9 @@ const libUtils = require('../../resources/libUtils');
 const client = require('../../database');
 const router = express.Router();
 
+const authMiddlware  = require('../middlewares/auth');
+router.use(authMiddlware);
+
 router.get('/', async(req, res) => {   
     try{       
         const {idEmpresa, idFuncaoEmpresa} = req.query;        
@@ -11,7 +14,8 @@ router.get('/', async(req, res) => {
         if (idEmpresa == undefined || idEmpresa == 0) {
             return res.status(406).send({ error: 'Parametro "IdEmpresa" obrigatório.'});
         }
-   
+               
+
         let query = `select ef.ID_EMPRESA_FUNCAO,                
                             ef.ID_FUNCAO,
                             ef.NOME_FUNCAO,
@@ -38,7 +42,7 @@ router.get('/', async(req, res) => {
         }
 
 
-        return res.send(await client.execQuery(query));
+        return res.send(await client.execQuery(query, req.user));
     }catch(err) {
         return res.status(400).send({ error: 'Erro ao executar consulta ' + err});
     }
@@ -88,7 +92,7 @@ router.put('/', async(req, res) => {
                         ID_EMPRESA_FUNCAO = ${ID_EMPRESA_FUNCAO}
                         `;
 
-        return res.send(await client.execUpdateInsert(query));
+        return res.send(await client.execUpdateInsert(query, req.user));
     }catch(err) {
         return res.status(400).send({ error: 'Registration failed ' + err});
     }
@@ -162,7 +166,7 @@ router.post('/', async(req, res) => {
                              ${libUtils.getInserValue(PERICULOSIDADE, true)}) returning ID_EMPRESA_FUNCAO
                         `;
 
-        return res.send(await client.execUpdateInsert(query));
+        return res.send(await client.execUpdateInsert(query, req.user));
     }catch(err) {
         return res.status(400).send({ error: 'Registration failed ' + err});
     }

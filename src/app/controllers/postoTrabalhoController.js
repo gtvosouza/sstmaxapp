@@ -4,8 +4,8 @@ const client = require('../../database');
 const libUtils = require('../../resources/libUtils');
 const router = express.Router();
 
-//const authMiddlware  = require('../middlewares/auth');
-//router.use(authMiddlware);
+const authMiddlware  = require('../middlewares/auth');
+router.use(authMiddlware);
 
 router.get('/', async(req, res) => {   
     try{       
@@ -17,7 +17,7 @@ router.get('/', async(req, res) => {
 
         let query = 'SELECT * FROM POSTOS_TRAB where ID_AMBIENTE = ' + idAmbiente;
 
-        return res.send(await client.execQuery(query));
+        return res.send(await client.execQuery(query,  req.user));
     }catch(err) {
         return res.status(400).send({ error: 'Erro ao executar consulta'});
     }
@@ -58,7 +58,7 @@ router.put('/', async(req, res) => {
                         ID_POSTO_TRAB = ${ID_POSTO_TRAB}
                      `;
        
-        return res.send(await client.execUpdateInsert(query));
+        return res.send(await client.execUpdateInsert(query,  req.user));
     }catch(err) {
         return res.status(400).send({ error: 'Registration failed ' + err});
     }
@@ -69,8 +69,7 @@ router.post('/', async(req, res) => {
     try{   
         const {idEmpresa} = req.query;        
 
-        const {ID_POSTO_TRAB,
-               DBA,
+        const {DBA,
                DESCRICAO,
                ID_AMBIENTE,
                ILUMINACAO_MAX,
@@ -92,7 +91,7 @@ router.post('/', async(req, res) => {
                           ${libUtils.getInserValue(OBSERVACAO, true)}) returning  ID_POSTO_TRAB`;
 
         console.log(query)
-        return res.send(await client.execUpdateInsert(query));
+        return res.send(await client.execUpdateInsert(query,  req.user));
     }catch(err) {
         return res.status(400).send({ error: 'Registration failed ' + err});
     }

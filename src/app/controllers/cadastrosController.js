@@ -18,7 +18,7 @@ router.get('/riscos', async(req, res) => {
             query += " and NOME_RISCO LIKE '%" + nome + "%'"
         }
 
-        const riscos =  await client.execQuery(query);
+        const riscos =  await client.execQuery(query, req.user);
         
         if (riscos.length == 0) {
             return res.status(400).send({ error: 'Risco não encontrado'});
@@ -42,7 +42,7 @@ router.get('/funcoes', async(req, res) => {
             query += " and NOME_FUNCAO LIKE '%" + nome + "%'"
         }
 
-        const funcoes =  await client.execQuery(query);
+        const funcoes =  await client.execQuery(query, req.user);
         
         if (funcoes.length == 0) {
             return res.status(400).send({ error: 'Função não encontrado'});
@@ -67,7 +67,7 @@ router.get('/tiporesponsavel', async(req, res) => {
             query += " and DESCRICAO_CURTA LIKE '%" + nome + "%'"
         }
 
-        const tipos =  await client.execQuery(query);
+        const tipos =  await client.execQuery(query, req.user);
         
         if (tipos.length == 0) {
             return res.status(400).send({ error: 'Tipo não encontrado'});
@@ -91,7 +91,7 @@ router.get('/responsavel', async(req, res) => {
             query += " and UPPER(NOME) LIKE '%" + nome.toUpperCase() + "%'"
         }
 
-        const resp =  await client.execQuery(query);
+        const resp =  await client.execQuery(query,req.user);
         
         if (resp.length == 0) {
             return res.status(400).send({ error: 'Tipo não encontrado'});

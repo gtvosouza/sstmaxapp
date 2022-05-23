@@ -16,8 +16,7 @@ router.get('/', async(req, res) => {
         }
 
         let query = 'SELECT * FROM ES1060_AMB where ID_EMPRESA = ' + idEmpresa;
-
-        return res.send(await client.execQuery(query));
+        return res.send(await client.execQuery(query, req.user));
     }catch(err) {
         return res.status(400).send({ error: 'Registration failed' + err});
     }
@@ -114,9 +113,7 @@ router.put('/', async(req, res) => {
             query += ` where
                         ID_AMBIENTE = ${ID_AMBIENTE}`
        
-        console.log(query);
-
-        return res.send(await client.execUpdateInsert(query));
+        return res.send(await client.execUpdateInsert(query, req.user));
     }catch(err) {
         return res.status(400).send({ error: 'Registration failed ' + err});
     }
@@ -170,7 +167,7 @@ router.post('/', async(req, res) => {
             null, ${idEmpresa}, ${LOCAL}, null, '${NUM_INSC}', null, 
             ${nextSeq}, ${TP_INSCRICAO}) returning ID_AMBIENTE`;
      
-        return res.send(await client.execUpdateInsert(query));
+        return res.send(await client.execUpdateInsert(query, req.user));
     }catch(err) {
         return res.status(400).send({ error: 'Registration failed ' + err});
     }

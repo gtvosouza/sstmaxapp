@@ -1,4 +1,5 @@
 const firebird = require('node-firebird');
+const {databases} = require('./clientesSSTMAX');
 
 const {
         FIREBIRD_DATABASE,
@@ -7,7 +8,7 @@ const {
         FIREBIRD_HOST
 } = process.env;
     
-const options = {
+const defaultOptions = {
         database: FIREBIRD_DATABASE,
         user: FIREBIRD_USER,
         password: FIREBIRD_PASSWORD,
@@ -15,9 +16,29 @@ const options = {
         host: FIREBIRD_HOST,
 };
 
-const pool = firebird.pool(5, options);
 
-const execQuery = (query) => {
+const options = (user) => {    
+  if(user == undefined) {
+    return defaultOptions
+  } else {
+    const database = databases.find(e => e.codigo == user.substring(0,4))
+
+    if (database != undefined)       
+      return database.options
+    else    
+      return defaultOptions
+  }
+}
+
+
+const execQuery = (query, user) => {
+  
+  if (user == undefined) {
+    return {error : "Usuário indefinido - CONTATE SUPORTE TÉCNICO"}
+  }
+
+  const pool = firebird.pool(5, options(user));
+
   return new Promise((resolver, rejeitar) => {
     pool.get((err, db) => {
       if (err) {    
@@ -38,10 +59,15 @@ const execQuery = (query) => {
   });
 }
 
-const execUpdateInsert = (query) => {
+const execUpdateInsert = (query, user) => {  
+   
+  if (user == undefined) {
+    return {error : "Usuário indefinido - CONTATE SUPORTE TÉCNICO"}
+  }
+
   return new Promise((resolver, rejeitar) => {
     
-    firebird.attach(options, function(err, db) {
+    firebird.attach(options(user), function(err, db) {
       if (err)
           throw err;
   

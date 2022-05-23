@@ -4,6 +4,9 @@ const libUtils = require('../../resources/libUtils');
 const client = require('../../database/');
 const router = express.Router();
 
+const authMiddlware  = require('../middlewares/auth');
+router.use(authMiddlware);
+
 router.get('/', async(req, res) => {   
     try{       
         const {idEmpresa, idFuncao} = req.query;        
@@ -26,7 +29,7 @@ router.get('/', async(req, res) => {
                             er.DATA_FIM IS NULL`;
 
 
-        return res.send(await client.execQuery(query));
+        return res.send(await client.execQuery(query, req.user));
     }catch(err) {
         return res.status(400).send({ error: 'Erro ao Carregar Registro'});
     }
@@ -59,7 +62,7 @@ router.get('/id', async(req, res) => {
                         where er.ID_EMPRESA_RISCO = ${idEmpresaRisco}`;
 
 
-        return res.send(await client.execQuery(query));
+        return res.send(await client.execQuery(query, req.user));
     }catch(err) {
         return res.status(400).send({ error: 'Erro ao Carregar Registro'});
     }
@@ -115,7 +118,7 @@ router.put('/', async(req, res) => {
                      where ID_EMPRESA_RISCO = ${ID_EMPRESA_RISCO}
                         `;
 
-        return res.send(await client.execUpdateInsert(query));
+        return res.send(await client.execUpdateInsert(query, req.user));
     }catch(err) {
         return res.status(400).send({ error: 'Registration failed ' + err});
     }
@@ -242,7 +245,7 @@ router.post('/', async(req, res) => {
                          NULL) returning ID_EMPRESA_RISCO
                         `;
 
-        return res.send(await client.execUpdateInsert(query));
+        return res.send(await client.execUpdateInsert(query, req.user));
     }catch(err) {
         return res.status(400).send({ error: 'Registration failed ' + err});
     }

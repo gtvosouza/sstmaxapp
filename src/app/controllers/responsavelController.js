@@ -4,6 +4,9 @@ const libUtils = require('../../resources/libUtils');
 const client = require('../../database/');
 const router = express.Router();
 
+const authMiddlware  = require('../middlewares/auth');
+router.use(authMiddlware);
+
 router.get('/', async(req, res) => {   
     try{       
         const {idEmpresa} = req.query;        
@@ -25,7 +28,7 @@ router.get('/', async(req, res) => {
                     Where rp.ID_EMPRESA = ${idEmpresa} `;
 
 
-        return res.send(await client.execQuery(query));
+        return res.send(await client.execQuery(query, req.user));
     }catch(err) {
         return res.status(400).send({ error: 'Erro ao Carregar Registro'});
     }
@@ -81,7 +84,7 @@ router.put('/', async(req, res) => {
                      where
                         ID_EMPRESA_RESP = ${ID_EMPRESA_RESP}`;
        
-        return res.send(await client.execUpdateInsert(query));
+        return res.send(await client.execUpdateInsert(query, req.user));
     }catch(err) {
         return res.status(400).send({ error: 'Registration failed ' + err});
     }
@@ -135,7 +138,7 @@ router.post('/', async(req, res) => {
                        
 
         console.log(query)
-        return res.send(await client.execUpdateInsert(query));
+        return res.send(await client.execUpdateInsert(query, req.user));
     }catch(err) {
         return res.status(400).send({ error: 'Registration failed ' + err});
     }

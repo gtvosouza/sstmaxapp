@@ -21,7 +21,7 @@ router.get('/descricao', async(req, res) => {
             query += " and NOME_EMPRESA LIKE '%" + nome + "%'"
         }
 
-        return res.send(await client.execQuery(query));
+        return res.send(await client.execQuery(query, req.user));
     }catch(err) {
         return res.status(400).send({ error: 'Registration failed'});
     }
@@ -56,7 +56,7 @@ router.get('/', async(req, res) => {
             query += " and NOME_EMPRESA LIKE '%" + nome + "%'"
         }
 
-        return res.send(await client.execQuery(query));
+        return res.send(await client.execQuery(query, req.user));
     }catch(err) {
         return res.status(400).send({ error: 'Registration failed'});
     }
@@ -102,7 +102,7 @@ router.get('/id', async(req, res) => {
                         from EMPRESAS ep
                     where ep.ID_EMPRESA = ${idEmpresa} `;
 
-        const empresas =  await client.execQuery(query);
+        const empresas =  await client.execQuery(query, req.user);
         
         if (empresas.length == 0) {
             return res.status(400).send({ error: 'Empresa não encontrada'});
@@ -131,7 +131,7 @@ router.put('/', async(req, res) => {
                         ID_EMPRESA = ${idEmpresa}
                      `;
                         
-        return res.send(await client.execUpdateInsert(query));
+        return res.send(await client.execUpdateInsert(query, req.user));
     }catch(err) {
         return res.status(400).send({ error: 'Registration failed ' + err});
     }

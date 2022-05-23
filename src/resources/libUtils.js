@@ -26,7 +26,7 @@ const formatDateDB = (date) => {
     // current year
     let year = date_ob.getFullYear();
 
-    return day + '/' + month + "/" + year;
+    return month + '/' + day + "/" + year;
 }
 
 const getUpdateFieldCondi = (fieldName, fieldValue, stringField) => {
