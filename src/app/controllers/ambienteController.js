@@ -129,7 +129,9 @@ router.post('/', async(req, res) => {
                DATA_INICIO,
                DATA_FINAL,
                DESCRICAO_LONGA} = req.body;
-           
+        
+        console.log(req.body)
+        
         if (idEmpresa == undefined || idEmpresa == 0) {
             return res.status(406).send(JSON.stringify({ error: 'Parametro "IdEmpresa" obrigatório.'}));
         }
