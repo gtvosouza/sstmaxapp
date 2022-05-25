@@ -109,7 +109,6 @@ router.post('/', async(req, res) => {
                 ATIVIDADES,
                 FERAM_UTILI,
                 ID_AMBIENTE,
-                INATIVA,
                 NAO_SAIR_PPRA, 
                 NAO_SAIR_PCMSO, 
                 NAO_SAIR_LTCAT, 
@@ -161,7 +160,7 @@ router.post('/', async(req, res) => {
                              ${libUtils.getInserValueBoolean(NAO_SAIR_PPRA)},
                              ${libUtils.getInserValueBoolean(NAO_SAIR_PCMSO)},
                              ${libUtils.getInserValueBoolean(NAO_SAIR_LTCAT)},
-                             ${libUtils.getInserValueBoolean(INATIVA)},
+                             'N',
                              ${libUtils.getInserValue(INSALUBRIDADE, true)},  
                              ${libUtils.getInserValue(PERICULOSIDADE, true)}) returning ID_EMPRESA_FUNCAO
                         `;
