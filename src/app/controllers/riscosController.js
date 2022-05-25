@@ -61,8 +61,15 @@ router.get('/id', async(req, res) => {
                         inner join CAD_RISCOS rc on er.ID_RISCO = rc.ID_CAD_RISCO      
                         where er.ID_EMPRESA_RISCO = ${idEmpresaRisco}`;
 
+        const result = await client.execQuery(query, req.user);
 
-        return res.send(await client.execQuery(query, req.user));
+        if (result.length > 0) {
+            return res.send(result[0]);
+        } else {
+            return res.send({});
+        }
+
+        
     }catch(err) {
         return res.status(400).send({ error: 'Erro ao Carregar Registro'});
     }
