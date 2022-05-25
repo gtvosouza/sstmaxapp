@@ -118,8 +118,8 @@ router.put('/', async(req, res) => {
                             ${libUtils.getUpdateFieldCondi('DATA_INI', DATA_INI, true)}
                             ${libUtils.getUpdateFieldCondi('DATA_FIM', DATA_FIM, true)}
                             ${libUtils.getUpdateFieldCondi('FONTE_GERADORA', FONTE_GERADORA, true)}
-                            ${libUtils.getUpdateFieldBoolInt('UTILIZA_EPI', UTILIZA_EPI)}
-                            ${libUtils.getUpdateFieldBoolInt('UTILIZA_EPC', UTILIZA_EPC)}
+                            ${libUtils.getUpdateFieldCondi('UTILIZA_EPI', UTILIZA_EPI, false)}
+                            ${libUtils.getUpdateFieldCondi('UTILIZA_EPC', UTILIZA_EPC, false)}
                             ID_FUNCAO = ${ID_FUNCAO},
                             ID_EMPRESA = ${idEmpresa}
                      where ID_EMPRESA_RISCO = ${ID_EMPRESA_RISCO}
@@ -230,8 +230,8 @@ router.post('/', async(req, res) => {
                          NULL, 
                          NULL, 
                          ${libUtils.getInserValue(TECNICA, true)}, 
-                         ${libUtils.getInserValueBooleanInt(UTILIZA_EPI)}, 
-                         ${libUtils.getInserValueBooleanInt(UTILIZA_EPC)}, 
+                         ${libUtils.getInserValue(UTILIZA_EPI, false)}, 
+                         ${libUtils.getInserValue(UTILIZA_EPC, false)}, 
                          ${libUtils.getInserValue(TIPO_AVALIACAO, false)}, 
                          ${libUtils.getInserValue(UNIDADE_MEDIDA, false)},  
                          NULL, 
