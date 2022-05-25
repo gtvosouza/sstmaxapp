@@ -156,7 +156,7 @@ router.post('/', async(req, res) => {
                              NULL, 
                              ${libUtils.getInserValue(FERAM_UTILI, true)}, 
                              ${libUtils.getInserValue(ID_AMBIENTE, false)}, 
-                             '${libUtils.getDate()}',   
+                             '${libUtils.getDateDB()}',   
                              NULL, 
                              ${libUtils.getInserValueBoolean(NAO_SAIR_PPRA)},
                              ${libUtils.getInserValueBoolean(NAO_SAIR_PCMSO)},

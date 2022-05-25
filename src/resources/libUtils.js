@@ -14,6 +14,19 @@ const getDate = () => {
     return day + '/' + month + "/" + year;
 }
 
+
+const getDateDB = () => {
+    let date_ob  = new Date();
+    let day = ("0" + date_ob.getDate()).slice(-2);
+    // current month
+    let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+    // current year
+    let year = date_ob.getFullYear();
+
+    return month + '/' + day + "/" + year;
+}
+
+
 const formatDateDB = (date) => {
     if (date == undefined)  
         return undefined;
@@ -90,5 +103,6 @@ module.exports = {
     getUpdateFieldBool,
     getUpdateFieldBoolInt,
     getInserValueBoolean,
-    getInserValueBooleanInt
+    getInserValueBooleanInt,
+    getDateDB
 }
