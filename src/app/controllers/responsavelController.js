@@ -136,8 +136,6 @@ router.post('/', async(req, res) => {
                             '${NOME_RESP}', 
                             ${libUtils.getInserValue(libUtils.formatDateDB(NUMERO_PIS), true)}) returning ID_EMPRESA_RESP `;
                        
-
-        console.log(query)
         return res.send(await client.execUpdateInsert(query, req.user));
     }catch(err) {
         return res.status(400).send({ error: 'Registration failed ' + err});

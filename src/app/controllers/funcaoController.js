@@ -160,7 +160,7 @@ router.post('/', async(req, res) => {
                              ${libUtils.getInserValueBoolean(NAO_SAIR_PPRA)},
                              ${libUtils.getInserValueBoolean(NAO_SAIR_PCMSO)},
                              ${libUtils.getInserValueBoolean(NAO_SAIR_LTCAT)},
-                             'N',
+                             NULL,
                              ${libUtils.getInserValue(INSALUBRIDADE, true)},  
                              ${libUtils.getInserValue(PERICULOSIDADE, true)}) returning ID_EMPRESA_FUNCAO
                         `;
