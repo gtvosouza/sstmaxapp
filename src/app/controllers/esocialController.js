@@ -20,12 +20,19 @@ router.get('/', async(req, res) => {
                             es.DATA_ENVIO,
                             es.PROTOCOLO,
                             es.RECIBO,
-                            es.ID_EVENTO
+                            es.ID_EVENTO,                            
+                            case EVENTO
+                               when 'S2220' THEN 'S-2220 - Monitoramento da Saúde do Trabalhador'
+                               when 'S2210' THEN 'S-2210 - Comunicação de Acidente de Trabalho'     
+                               when 'S2240' THEN 'S-2240 - Condições Ambientais do Trabalho - Agentes Nocivos'
+                            end  as EVENTO
                         from GER_ESOCIAL es
                         inner join EMPRESAS ep on ep.ID_EMPRESA = es.ID_EMPRESA
                         inner join FUNCIONARIOS fn on fn.ID_FUNCIONARIO = es.ID_FUNCIONARIO
                     where es.ID_EMPRESA = ${req.empresaID} and
-                        es.recibo is not null`;
+                        es.recibo is not null
+                    order by es.DATA_ENVIO desc    
+                        `;
         
 
         return res.send(await client.execQuery(query,  req.user));
