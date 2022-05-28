@@ -27,31 +27,31 @@ router.get('/caracteristicas', async(req, res) => {
         const carecteristicas = [
             {
                 descricao : "Pé Direito (M)",
-                opcoes: ["2,5m", "3m", "4m", "5m", "6m", "Outro"]            
+                opcoes: ["","2,5m", "3m", "4m", "5m", "6m", "Outro"]            
             },
             {
                 descricao : "Cobertura",
-                opcoes: ["Galvanizada", "Fibrocimento", "Cerâmica", "Translúcidas", "Concreto", "Outro"]            
+                opcoes: ["","Galvanizada", "Fibrocimento", "Cerâmica", "Translúcidas", "Concreto", "Outro"]            
             },
             {
                 descricao : "Parede",
-                opcoes: ["Alvenaria", "Divisórias", "Vidro", "Madeira", "Gesso", "Metal", "Outro"]            
+                opcoes: ["","Alvenaria", "Divisórias", "Vidro", "Madeira", "Gesso", "Metal", "Outro"]            
             },
             {
                 descricao : "Iluminação",
-                opcoes: ["Natural", "Artificial", "Artificial/natual", "Outro"]            
+                opcoes: ["","Natural", "Artificial", "Artificial/natual", "Outro"]            
             },
             {
                 descricao : "Ventilação",
-                opcoes: ["Portas", "Janelas", "Ventiladores", "Natural", "Outro"]            
+                opcoes: ["","Portas", "Janelas", "Ventiladores", "Natural", "Outro"]            
             },
             {
                 descricao : "Piso",
-                opcoes: ["Cerâmico", "Cimento Industrial", "Paviflex laminado", "Concreto", "Madeira", "Carpete"]            
+                opcoes: ["","Cerâmico", "Cimento Industrial", "Paviflex laminado", "Concreto", "Madeira", "Carpete"]            
             },
             {
                 descricao : "EPC",
-                opcoes: ["Coifa/Capela Exaustora", "Exaustor eólico", "Outros"]            
+                opcoes: ["","Coifa/Capela Exaustora", "Exaustor eólico", "Outros"]            
             },
         ]
 
