@@ -10,13 +10,21 @@ router.get('/riscos', async(req, res) => {
     try{       
         const {nome} = req.query;            
         
-        let query = `select FIRST 40 *
-                        from CAD_RISCOS
-                    where ativo = 'S'`;
+        let query = `select FIRST 40 cr.*,                             
+                            sv.DESCRICAO_CURTA AS SEVERIDADE, 
+                            pb.DESCRICAO_CURTA AS PROBABILIDADE                                                        
+                        from CAD_RISCOS cr                                                                                        
+                        left join AUXILIARES sv on sv.ID_RETORNAR = cr.ID_SEVERIDADE and
+                                                   sv.FLAG = 36                                                     
+                        left join AUXILIARES pb on pb.ID_RETORNAR = cr.ID_PROBABILIDADE and
+                                                   pb.FLAG = 36  
+                    where cr.ativo = 'S'`;
                 
         if (!!nome && nome != "") {
-            query += " and NOME_RISCO LIKE '%" + nome + "%'"
+            query += " and cr.NOME_RISCO LIKE '%" + nome + "%'"
         }
+
+        console.log(query)
 
         const riscos =  await client.execQuery(query, req.user);
         
