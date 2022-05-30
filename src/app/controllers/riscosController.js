@@ -105,7 +105,14 @@ router.put('/', async(req, res) => {
                 DATA_FIM,
                 FONTE_GERADORA,
                 UTILIZA_EPI,
-                UTILIZA_EPC } = req.body;
+                UTILIZA_EPC,
+                ID_SEVERIDADE,
+                ID_PROBABILIDADE,
+                ID_NIVEL_EXPO,
+                CARACT_EXPO,
+                MED_ADMINISTRATIVA,
+                MED_CONTROLES } = req.body;
+
            
         if (idEmpresa == undefined || idEmpresa == 0) {
             return res.status(406).send(JSON.stringify({ error: 'Parametro "IdEmpresa" obrigatório.'}));
@@ -135,6 +142,12 @@ router.put('/', async(req, res) => {
                             ${libUtils.getUpdateFieldCondi('FONTE_GERADORA', FONTE_GERADORA, true)}
                             ${libUtils.getUpdateFieldCondi('UTILIZA_EPI', UTILIZA_EPI, false)}
                             ${libUtils.getUpdateFieldCondi('UTILIZA_EPC', UTILIZA_EPC, false)}
+                            ${libUtils.getUpdateFieldCondi('ID_NIVEL_EXPO', ID_NIVEL_EXPO, false)}
+                            ${libUtils.getUpdateFieldCondi('ID_SEVERIDADE', ID_SEVERIDADE, false)}
+                            ${libUtils.getUpdateFieldCondi('ID_PROBABILIDADE', ID_PROBABILIDADE, false)}
+                            ${libUtils.getUpdateFieldCondi('CARACT_EXPO', CARACT_EXPO, true)}
+                            ${libUtils.getUpdateFieldCondi('MED_ADMINISTRATIVA', MED_ADMINISTRATIVA, true)}
+                            ${libUtils.getUpdateFieldCondi('MED_CONTROLES', MED_CONTROLES, true)}
                             ID_FUNCAO = ${ID_FUNCAO},
                             ID_EMPRESA = ${idEmpresa}
                      where ID_EMPRESA_RISCO = ${ID_EMPRESA_RISCO}
@@ -161,7 +174,13 @@ router.post('/', async(req, res) => {
             DATA_FIM,
             FONTE_GERADORA,
             UTILIZA_EPI,
-            UTILIZA_EPC } = req.body;
+            UTILIZA_EPC,   
+            ID_SEVERIDADE,
+            ID_PROBABILIDADE,
+            ID_NIVEL_EXPO,
+            CARACT_EXPO,
+            MED_ADMINISTRATIVA,
+            MED_CONTROLES } = req.body;
         
         if (idEmpresa == undefined || idEmpresa == 0) {
             return res.status(406).send(JSON.stringify({ error: 'Parametro "IdEmpresa" obrigatório.'}));
@@ -221,7 +240,8 @@ router.post('/', async(req, res) => {
                          SITUACAO_OPER, 
                          TEMPORALIDADE, 
                          INCIDENCIA, 
-                         CLASSE)
+                         CLASSE,
+                         MED_ADMINISTRATIVA)
                     values
                         (${idEmpresa}, 
                          ${ID_FUNCAO}, 
@@ -253,18 +273,19 @@ router.post('/', async(req, res) => {
                          'S', 
                          NULL, 
                          NULL, 
-                         NULL, 
-                         NULL, 
+                         ${libUtils.getInserValue(MED_CONTROLES, true)}, 
+                         ${libUtils.getInserValue(CARACT_EXPO, true)}, 
                          NULL, 
                          ${libUtils.getInserValue(LIMITE_TOLER, false)},  
                          ${libUtils.getInserValue(FONTE_GERADORA, true)},   
+                         ${libUtils.getInserValue(ID_PROBABILIDADE, false)}, 
+                         ${libUtils.getInserValue(ID_SEVERIDADE, false)}, 
+                         ${libUtils.getInserValue(ID_NIVEL_EXPO, false)},  
                          NULL, 
                          NULL, 
                          NULL, 
-                         NULL, 
-                         NULL, 
-                         NULL, 
-                         NULL) returning ID_EMPRESA_RISCO
+                         NULL,
+                         ${libUtils.getInserValue(MED_ADMINISTRATIVA, true)}) returning ID_EMPRESA_RISCO
                         `;
 
         return res.send(await client.execUpdateInsert(query, req.user));
