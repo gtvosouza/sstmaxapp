@@ -77,6 +77,7 @@ router.get('/id', async(req, res) => {
                             NUMERO,
                             BAIRRO,
                             CIDADE,
+                            ULTIMO_LAUDO,
                             CAST(OBSERVACAO AS VARCHAR(1000)) AS OBSERVACAO,
                             TRIM(UF) UF,
                             (Select DESCRICAO_CURTA
