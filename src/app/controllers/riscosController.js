@@ -56,9 +56,24 @@ router.get('/id', async(req, res) => {
                                 er.DATA_FIM,
                                 er.FONTE_GERADORA,
                                 er.UTILIZA_EPI,
-                                er.UTILIZA_EPC
+                                er.UTILIZA_EPC,
+                                er.ID_NIVEL_EXPO,
+                                ne.DESCRICAO_CURTA AS NIVEL_EXPOSICAO,
+                                er.ID_SEVERIDADE,
+                                sv.DESCRICAO_CURTA AS SEVERIDADE,
+                                er.ID_PROBABILIDADE,
+                                pb.DESCRICAO_CURTA AS PROBABILIDADE,
+                                er.CARACT_EXPO,
+                                er.MED_ADMINISTRATIVA,
+                                er.MED_CONTROLES
                         From EMPRESAS_RISCOS er                                        
-                        inner join CAD_RISCOS rc on er.ID_RISCO = rc.ID_CAD_RISCO      
+                        inner join CAD_RISCOS rc on er.ID_RISCO = rc.ID_CAD_RISCO    
+                        left join AUXILIARES ne on ne.ID_RETORNAR = er.ID_NIVEL_EXPO and
+                                                   ne.FLAG = 37                                                       
+                        left join AUXILIARES sv on sv.ID_RETORNAR = er.ID_SEVERIDADE and
+                                                   sv.FLAG = 36                                                     
+                        left join AUXILIARES pb on pb.ID_RETORNAR = er.ID_PROBABILIDADE and
+                                                   pb.FLAG = 36  
                         where er.ID_EMPRESA_RISCO = ${idEmpresaRisco}`;
 
         const result = await client.execQuery(query, req.user);

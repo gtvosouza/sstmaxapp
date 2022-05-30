@@ -78,6 +78,10 @@ router.get('/id', async(req, res) => {
                             BAIRRO,
                             CIDADE,
                             ULTIMO_LAUDO,
+                            TELEFONES,
+                            EMAIL,
+                            CONTATO,
+                            RESP_EMPRESA_NOME,
                             CAST(OBSERVACAO AS VARCHAR(1000)) AS OBSERVACAO,
                             TRIM(UF) UF,
                             (Select DESCRICAO_CURTA

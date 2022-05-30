@@ -79,6 +79,84 @@ router.get('/tiporesponsavel', async(req, res) => {
     }
 });
 
+
+router.get('/nivelExposicao', async(req, res) => {   
+    try{       
+        const {nome} = req.query;            
+        
+        let query = `select ID_RETORNAR,
+                            DESCRICAO_CURTA
+                        from AUXILIARES
+                    where flag = 37`;
+                
+        if (!!nome && nome != "") {
+            query += " and DESCRICAO_CURTA LIKE '%" + nome + "%'"
+        }
+
+        const tipos =  await client.execQuery(query, req.user);
+        
+        if (tipos.length == 0) {
+            return res.status(400).send({ error: 'Tipo não encontrado'});
+        }
+
+        return res.send(tipos);
+    }catch(err) {
+        return res.status(400).send({ error: 'Erro ao Carregar'});
+    }
+});
+
+router.get('/severidade', async(req, res) => {   
+    try{       
+        const {nome} = req.query;            
+        
+        let query = `select ID_RETORNAR,
+                            DESCRICAO_CURTA
+                        from AUXILIARES
+                    where flag = 36`;
+                
+        if (!!nome && nome != "") {
+            query += " and DESCRICAO_CURTA LIKE '%" + nome + "%'"
+        }
+
+        const tipos =  await client.execQuery(query, req.user);
+        
+        if (tipos.length == 0) {
+            return res.status(400).send({ error: 'Tipo não encontrado'});
+        }
+
+        return res.send(tipos);
+    }catch(err) {
+        return res.status(400).send({ error: 'Erro ao Carregar'});
+    }
+});
+
+
+router.get('/probabilidade', async(req, res) => {   
+    try{       
+        const {nome} = req.query;            
+        
+        let query = `select ID_RETORNAR,
+                            DESCRICAO_CURTA
+                        from AUXILIARES
+                    where flag = 35`;
+                
+        if (!!nome && nome != "") {
+            query += " and DESCRICAO_CURTA LIKE '%" + nome + "%'"
+        }
+
+        const tipos =  await client.execQuery(query, req.user);
+        
+        if (tipos.length == 0) {
+            return res.status(400).send({ error: 'Tipo não encontrado'});
+        }
+
+        return res.send(tipos);
+    }catch(err) {
+        return res.status(400).send({ error: 'Erro ao Carregar'});
+    }
+});
+
+
 router.get('/responsavel', async(req, res) => {   
     try{       
         const {nome} = req.query;            
