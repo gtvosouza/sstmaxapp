@@ -81,6 +81,7 @@ router.get('/id', async(req, res) => {
                             TELEFONES,
                             EMAIL,
                             CONTATO,
+                            CPF_RESPONSAVEL,
                             RESP_EMPRESA_NOME,
                             CAST(OBSERVACAO AS VARCHAR(1000)) AS OBSERVACAO,
                             TRIM(UF) UF,
@@ -122,7 +123,19 @@ router.get('/id', async(req, res) => {
 router.put('/', async(req, res) => {   
     try{   
         const {idEmpresa} = req.query;        
-        const {OBSERVACAO} = req.body;
+        const {OBSERVACAO,
+               CONTATO,
+               TELEFONES,
+               RESP_EMPRESA_NOME,
+               CPF_RESPONSAVEL,
+               CIDADE,
+               UF,
+               CEP,
+               ENDERECO,
+               NUMERO,
+               BAIRRO,
+               COMPLEMENTO,
+               ULTIMO_LAUDO} = req.body;
            
         if (idEmpresa == undefined || idEmpresa == 0) {
             return res.status(406).send(JSON.stringify({ error: 'Parametro "IdEmpresa" obrigatório.'}));
@@ -131,7 +144,19 @@ router.put('/', async(req, res) => {
         let query = `update EMPRESAS
                      set
                         ${libUtils.getUpdateFieldCondi('OBSERVACAO', OBSERVACAO, true)}
-                        CIDADE = CIDADE
+                        ${libUtils.getUpdateFieldCondi('CONTATO', CONTATO, true)}
+                        ${libUtils.getUpdateFieldCondi('TELEFONES', TELEFONES, true)}
+                        ${libUtils.getUpdateFieldCondi('RESP_EMPRESA_NOME', RESP_EMPRESA_NOME, true)}
+                        ${libUtils.getUpdateFieldCondi('CPF_RESPONSAVEL', CPF_RESPONSAVEL, true)}
+                        ${libUtils.getUpdateFieldCondi('CIDADE', CIDADE, true)}
+                        ${libUtils.getUpdateFieldCondi('UF', UF, true)}
+                        ${libUtils.getUpdateFieldCondi('CEP', CEP, true)}
+                        ${libUtils.getUpdateFieldCondi('ENDERECO', ENDERECO, true)}
+                        ${libUtils.getUpdateFieldCondi('NUMERO', NUMERO, true)}
+                        ${libUtils.getUpdateFieldCondi('BAIRRO', BAIRRO, true)}
+                        ${libUtils.getUpdateFieldCondi('COMPLEMENTO', COMPLEMENTO, true)}
+                        ${libUtils.getUpdateFieldCondi('ULTIMO_LAUDO', ULTIMO_LAUDO, true)}                        
+                        CIPA = CIPA
                      where
                         ID_EMPRESA = ${idEmpresa}
                      `;
