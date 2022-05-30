@@ -39,7 +39,7 @@ router.get('/caracteristicas', async(req, res) => {
             },
             {
                 descricao : "Iluminação",
-                opcoes: ["","Natural", "Artificial", "Artificial/natual", "Outro"]            
+                opcoes: ["","Natural", "Artificial", "Artificial/natural", "Outro"]            
             },
             {
                 descricao : "Ventilação",
