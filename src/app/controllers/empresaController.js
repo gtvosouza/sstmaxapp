@@ -77,6 +77,8 @@ router.get('/id', async(req, res) => {
                             NUMERO,
                             BAIRRO,
                             CIDADE,
+                            CEP,
+                            COMPLEMENTO,
                             ULTIMO_LAUDO,
                             TELEFONES,
                             EMAIL,
