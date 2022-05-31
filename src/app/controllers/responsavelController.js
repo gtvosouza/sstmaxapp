@@ -9,7 +9,7 @@ router.use(authMiddlware);
 
 router.get('/', async(req, res) => {   
     try{       
-        const {idEmpresa} = req.query;        
+        const {idEmpresa, nome} = req.query;        
         
         if (idEmpresa == undefined || idEmpresa == 0) {
             return res.status(406).send(JSON.stringify({ error: 'Parametro "IdEmpresa" obrigatório.'}));
@@ -26,7 +26,11 @@ router.get('/', async(req, res) => {
                     inner join AUXILIARES au on au.ID_RETORNAR = rp.ID_TIPO_RESP and 
                                                 au.flag = 15                         
                     Where rp.ID_EMPRESA = ${idEmpresa} `;
-
+                       
+                    if (!!nome && nome != "") {
+                        query += " and NOME_RESP LIKE '%" + nome + "%'"
+                    }
+            
 
         return res.send(await client.execQuery(query, req.user));
     }catch(err) {

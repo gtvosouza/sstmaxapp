@@ -9,7 +9,7 @@ router.use(authMiddlware);
 
 router.get('/', async(req, res) => {   
     try{       
-        const {idEmpresa} = req.query;        
+        const {idEmpresa, nome} = req.query;        
 
 
         if (idEmpresa == undefined || idEmpresa == 0) {
@@ -23,9 +23,15 @@ router.get('/', async(req, res) => {
                      inner join  EMPRESAS_FUNCOES cf   on cf.id_funcao = fn.ID_FUNCAO and
                                                          cf.ID_EMPRESA = fn.ID_EMPRESA
                      Where fn.ID_EMPRESA = ${idEmpresa} and
-                           fn.data_demissao is null
-                     ORDER BY NOME_FUNCIONARIO`;
+                           fn.data_demissao is null`;
         
+                     
+        if (!!nome && nome != "") {
+            query += " and NOME_FUNCIONARIO LIKE '%" + nome + "%'"
+        }
+
+        query += " ORDER BY NOME_FUNCIONARIO"
+
 
         return res.send(await client.execQuery(query,  req.user));
     }catch(err) {

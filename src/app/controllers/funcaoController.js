@@ -9,13 +9,12 @@ router.use(authMiddlware);
 
 router.get('/', async(req, res) => {   
     try{       
-        const {idEmpresa, idFuncaoEmpresa} = req.query;        
+        const {idEmpresa, nome, idFuncaoEmpresa} = req.query;        
 
         if (idEmpresa == undefined || idEmpresa == 0) {
             return res.status(406).send({ error: 'Parametro "IdEmpresa" obrigatório.'});
         }
                
-
         let query = `select ef.ID_EMPRESA_FUNCAO,                
                             ef.ID_FUNCAO,
                             ef.NOME_FUNCAO,
@@ -41,6 +40,9 @@ router.get('/', async(req, res) => {
             query += ' and ID_EMPRESA_FUNCAO = ' + idFuncaoEmpresa;
         }
 
+        if (!!nome && nome != "") {
+            query += " and NOME_FUNCAO LIKE '%" + nome + "%'"
+        }
 
         return res.send(await client.execQuery(query, req.user));
     }catch(err) {

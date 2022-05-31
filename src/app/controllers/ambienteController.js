@@ -9,13 +9,19 @@ router.use(authMiddlware);
 
 router.get('/', async(req, res) => {   
     try{       
-        const {idEmpresa} = req.query;        
+        const {idEmpresa, nome} = req.query;        
 
         if (idEmpresa == undefined || idEmpresa == 0) {
             return res.status(406).send(JSON.stringify({ error: 'Parametro "IdEmpresa" obrigatório.'}));
         }
 
         let query = 'SELECT * FROM ES1060_AMB where ID_EMPRESA = ' + idEmpresa;
+        
+                       
+        if (!!nome && nome != "") {
+            query += " and DESCRICAO LIKE '%" + nome + "%'"
+        }
+
         return res.send(await client.execQuery(query, req.user));
     }catch(err) {
         return res.status(400).send({ error: 'Registration failed' + err});
